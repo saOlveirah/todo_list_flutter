@@ -35,7 +35,7 @@ class TaskIten extends StatelessWidget {
           ),
         ),
 
-        trailing: IconButton(tooltip:'Excluir tarefa' , onPressed:onDelete icon: const Icon(Icons.delete_outline),
+        trailing: IconButton(tooltip:'Excluir tarefa' , onPressed:onDelete , icon: const Icon(Icons.delete_outline),
         ),
       ),
     );
