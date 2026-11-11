@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list_flutter/models/task.dart';
+
 import '../services/app_storage.dart';
 
 class LoginPage extends StatefulWidget {
@@ -64,9 +64,51 @@ class _LoginPageState extends State<LoginPage> {
                     color: colorScheme.primary,
                   ),
                   const SizedBox(height: 16),
-                  Text('Minhas tarefas', 
-                  style: textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
+                  Text(
+                    'Minhas tarefas',
+                    style: textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  const SizedBox(height: 8),
+                  Text(
+                    'Organize seu dia',
+                    style: textTheme.bodyLarge?.copyWith(
+                      color: colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                  TextField(
+                    controller: _usernameController,
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(
+                      labelText: 'Usuário',
+                      hintText: 'aluno',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  ),
+                  const SizedBox( height: 16,),
+                  TextField(
+                    controller: _passwordCntroller,
+                    obscureText: true,
+                    textInputAction: TextInputAction.done,
+                    onSubmitted: (_) => _Login(),
+                    decoration: InputDecoration(
+                      labelText: 'Senha',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 52,
+                    child: FilledButton(
+                      onPressed: _Login,
+                      child: const Text('Entrar'),
                     ),
                   ),
                 ],
