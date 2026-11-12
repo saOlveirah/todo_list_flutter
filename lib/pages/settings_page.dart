@@ -22,19 +22,24 @@ class _SettingsPageState extends State<SettingsPages> {
   bool _confirmDelete = true;
 
   @override
-  void InitState() {
+  void initState() {
     super.initState();
     _loadSetting();
   }
 
   Future<void> _loadSetting() async {
-    final settings = await _appStorage.loadSettings();
-    setState(() {
-      _darkMode = settings.darkMode;
-      _confirmDelete = settings.confirmDelete;
-      _isLoading = false;
-    });
+  final settings = await _appStorage.loadSettings();
+
+  if (!mounted) {
+    return;
   }
+
+  setState(() {
+    _darkMode = settings.darkmode;
+    _confirmDelete = settings.confirmDelete;
+    _isLoading = false;
+  });
+}
 
   Future<void> _toggleDarkMode(bool value) async {
     setState(() {
@@ -50,7 +55,7 @@ class _SettingsPageState extends State<SettingsPages> {
       _confirmDelete = value;
     });
 
-    await _appStorage.saveConformDelete(value);
+    await _appStorage.saveConfirmDelete(value);
   }
 
   Future<void> _confirmLogout() async {
@@ -130,7 +135,7 @@ class _SettingsPageState extends State<SettingsPages> {
                 ListTile(
                   title: const Text('Alterar senha'),
                   trailing: const Icon(Icons.chevron_right),
-                  onTap: _confirmLogout,
+                  onTap: _changedPassword,
                 ),
                 const _SectionTitle('SOBRE'),
                 const ListTile(
@@ -208,6 +213,7 @@ class _ChangePasswordDialogState extends State<_ChangePasswordDialog> {
     }
 
     Navigator.pop(context, true);
+  }
 
     @override
     Widget build(BuildContext context) {
@@ -259,7 +265,7 @@ class _ChangePasswordDialogState extends State<_ChangePasswordDialog> {
       );
     }
   }
-}
+
 
 class _SectionTitle extends StatelessWidget {
   final String title;
