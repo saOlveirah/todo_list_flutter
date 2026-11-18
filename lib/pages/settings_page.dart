@@ -59,7 +59,7 @@ class _SettingsPageState extends State<SettingsPages> {
   }
 
   Future<void> _confirmLogout() async {
-    final shouldLogout = await showDialog(
+    final shouldLogout = await showDialog<bool>(
       context: context,
       builder: (context) {
         return AlertDialog(
@@ -70,7 +70,7 @@ class _SettingsPageState extends State<SettingsPages> {
               onPressed: () => Navigator.pop(context, false),
               child: const Text('Cancelar'),
             ),
-            TextButton(
+            FilledButton(
               onPressed: () => Navigator.pop(context, true),
               child: const Text('Sair'),
             ),
