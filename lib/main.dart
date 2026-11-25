@@ -40,7 +40,7 @@ class _TodoAppState extends State<TodoApp> {
 
     setState(() {
       _isLoggedIn = isLoggedIn;
-      _darkMode = settings.darkMode;
+      _darkMode = settings.darkmode;
       _isLoading = false;
     });
   }

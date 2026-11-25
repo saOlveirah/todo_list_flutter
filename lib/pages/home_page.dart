@@ -1,12 +1,14 @@
 
 import 'package:flutter/material.dart';
+import 'package:todo_list_flutter/widgets/task_imput.dart';
+import 'package:todo_list_flutter/widgets/task_iten.dart';
 import '../models/task.dart';
 import '../services/app_storage.dart';
 import '../services/task_storage.dart';
 import '../widgets/empty_state.dart';
 import '../widgets/task_filter.dart';
-import '../widgets/task_input.dart';
-import '../widgets/task_item.dart';
+import '../widgets/task_imput.dart';
+import '../widgets/task_iten.dart';
 import 'settings_page.dart';
 
 
@@ -46,7 +48,7 @@ class _HomePageState extends State<HomePage> {
   
   List<Task> get _tasksOnSelectedDate {
     return _tasks
-        .where((task) => isSameDay(task.date, _selectedDate))
+        .where((task) => isSamaDay(task.date, _selectedDate))
         .toList();
   }
 
@@ -84,13 +86,13 @@ class _HomePageState extends State<HomePage> {
 
   String get _dayTitle {
     final today = dateOnly(DateTime.now());
-    if (isSameDay(_selectedDate, today)) {
+    if (isSamaDay(_selectedDate, today)) {
       return 'Hoje';
     }
-    if (isSameDay(_selectedDate, today.subtract(const Duration(days: 1)))) {
+    if (isSamaDay(_selectedDate, today.subtract(const Duration(days: 1)))) {
       return 'Ontem';
     }
-    if (isSameDay(_selectedDate, today.add(const Duration(days: 1)))) {
+    if (isSamaDay(_selectedDate, today.add(const Duration(days: 1)))) {
       return 'Amanhã';
     }
     return 'Tarefas do dia';
@@ -145,7 +147,7 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _loadData() async {
     // Lê a lista JSON e transforma em List<Task>.
-    final loadedTasks = await _storage.loadTasks();
+    final loadedTasks = await _storage.loadTask();
     // Lê se devemos pedir confirmação para excluir.
     final settings = await _appStorage.loadSettings();
 
@@ -159,7 +161,7 @@ class _HomePageState extends State<HomePage> {
 
   // Grava a lista inteira de novo no aparelho.
   Future<void> _saveTasks() async {
-    await _storage.saveTasks(_tasks);
+    await _storage.saveTask(_tasks);
   }
 
   // Cria uma tarefa, coloca na lista, salva e mostra o dia dela.
@@ -261,7 +263,7 @@ class _HomePageState extends State<HomePage> {
       context,
       MaterialPageRoute(
         builder: (context) {
-          return SettingsPage(
+          return SettingsPages(
             onLogout: widget.onLogout,
             onThemeChanged: widget.onThemeChanged,
           );
@@ -303,7 +305,7 @@ class _HomePageState extends State<HomePage> {
                 Expanded(child: _buildContent()),
                 // O campo de adicionar fica fixo embaixo.
                 TaskInput(
-                  selectedDate: _selectedDate,
+                  selectDate: _selectedDate,
                   onAdd: _addTask,
                 ),
               ],
@@ -365,7 +367,7 @@ class _HomePageState extends State<HomePage> {
             child: TextButton.icon(
               onPressed: _pickDate,
               icon: const Icon(Icons.calendar_today),
-              label: Text(formatShortDate(_selectedDate)),
+              label: Text(formatShortDay(_selectedDate)),
             ),
           ),
           IconButton(
@@ -458,7 +460,7 @@ class _HomePageState extends State<HomePage> {
       itemBuilder: (context, index) {
         final task = visibleTasks[index];
 
-        return TaskItem(
+        return TaskIten(
           task: task,
           // () => ... cria uma função que chama o método com ESTA tarefa.
           onToggle: () => _toggleTask(task),
